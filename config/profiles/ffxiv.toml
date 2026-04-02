@@ -1,0 +1,41 @@
+profile = "ffxiv"
+
+[[device]]
+label = "Tartarus"
+
+mapping = [
+  { input = "KEY_1", output = "KEY_ESC" },
+  { input = "KEY_2", output = "KEY_F2" },
+  { input = "KEY_3", output = "KEY_F3" },
+  { input = "KEY_4", output = "KEY_F4" },
+  { input = "KEY_5", outputs = ["KEY_LEFTSHIFT", "KEY_SEMICOLON"] },
+  { input = "KEY_Q", output = "KEY_1", fire_ms = 200 },
+  { input = "KEY_W", output = "KEY_2", fire_ms = 200 },
+  { input = "KEY_E", output = "KEY_3", fire_ms = 200 },
+  { input = "KEY_R", output = "KEY_4", fire_ms = 200 },
+  { input = "KEY_TAB", output = "KEY_TAB" },
+  { input = "KEY_M", output = "KEY_TAB" },
+  { input = "KEY_A", output = "KEY_5", fire_ms = 200 },
+  { input = "KEY_S", output = "KEY_6", fire_ms = 200 },
+  { input = "KEY_D", output = "KEY_7", fire_ms = 200 },
+  { input = "KEY_F", output = "KEY_8", fire_ms = 200 },
+  { input = "KEY_Z", output = "KEY_9", fire_ms = 200 },
+  { input = "KEY_X", output = "KEY_0", fire_ms = 200 },
+  { input = "KEY_C", output = "KEY_MINUS", fire_ms = 200 },
+  { input = "KEY_UP", output = "KEY_W" },
+  { input = "KEY_DOWN", output = "KEY_S" },
+  { input = "KEY_LEFT", output = "KEY_A" },
+  { input = "KEY_RIGHT", output = "KEY_D" },
+  { input = "KEY_LEFTALT", output = "KEY_KP0" },
+  { input = "KEY_SPACE", output = "KEY_SPACE" },
+]
+
+[[device]]
+label = "Naga"
+
+mapping = [
+  { input = "KEY_LEFTCTRL", output = "KEY_LEFTCTRL" },
+  { input = "KEY_LEFTSHIFT", output = "KEY_LEFTSHIFT" },
+  { input = "KEY_0", output = "KEY_SPACE" },
+  { input = "KEY_MINUS", output = "KEY_SPACE" },
+]

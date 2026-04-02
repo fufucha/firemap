@@ -1,0 +1,13 @@
+[[device]]
+label = "Tartarus"
+expected_name = "Razer Razer Tartarus V2"
+vendor_id = "1532"
+product_id = "022b"
+interface_number = 0
+
+[[device]]
+label = "Naga"
+expected_name = "Razer Razer Naga V2 HyperSpeed"
+vendor_id = "1532"
+product_id = "00b4"
+interface_number = 2
