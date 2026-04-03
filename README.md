@@ -4,7 +4,9 @@
 
 This project is a profile based Linux input remapper that uses deterministic `evdev` device selection and `uinput` output.
 
-It was built because the available Linux options were not a great fit for this setup, either because features such as autofire were missing or because the overall stack was heavier than desired. The current hardware configuration targets a Razer Tartarus V2 and a Razer Naga V2 HyperSpeed.
+The current hardware configuration targets a Razer Tartarus V2 and a Razer Naga V2 HyperSpeed.
+
+It was built because the available Linux options were not a great fit for this setup, either because features such as autofire were missing or because the overall stack was heavier than desired.
 
 ## Prerequisites
 
