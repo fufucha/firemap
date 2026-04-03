@@ -24,23 +24,7 @@ Build the project from the current repository root.
 cargo build
 ```
 
-## Inspect Devices
-
-Print the detected `event*` devices and their USB identity so you can determine the correct `vendor_id`, `product_id`, and `interface_number`.
-
-```bash
-cargo run -q -- inspect
-```
-
-## List Devices
-
-Print a short list of detected `event*` devices when you only need a quick overview or want to choose a target for `keycodes` or `probe`.
-
-```bash
-cargo run -q -- devices
-```
-
-## Suggest Hardware Config
+## Suggest hardware config
 
 Print likely `[[device]]` blocks for `config/hardware.toml` based on detected devices. This is meant as a starting point for users who are less comfortable inspecting the raw device metadata by hand.
 
@@ -51,25 +35,7 @@ cargo run -q -- hardware --all
 
 By default the command groups interfaces that appear to belong to the same physical device and prints the most likely candidate first. Use `--all` when you want to inspect every interface. The generated `label` is the detected device name, so you can keep it as is or rename it to something shorter for your setup. Then use `inspect`, `probe`, or `keycodes` if you need to confirm which interface is the correct one.
 
-## Probe One Device
-
-Read raw key events from one specific device to confirm which interface actually carries the keys you want to map.
-
-```bash
-sudo cargo run -q -- probe /dev/input/eventX
-```
-
-## Read Raw Keycodes
-
-Print raw key names and numeric keycodes on key press. When a label such as `Tartarus` is used, the target device is resolved through `config/hardware.toml`.
-
-```bash
-sudo cargo run -q -- keycodes Tartarus
-sudo cargo run -q -- keycodes /dev/input/eventX
-sudo cargo run -q -- keycodes /dev/input/eventX --no-grab
-```
-
-## Configure Devices
+## Configure devices
 
 ### Hardware
 
@@ -126,7 +92,41 @@ sudo cargo run -q -- run
 sudo cargo run -q -- run ffxiv
 ```
 
-## Run With systemd
+## Inspect devices
+
+Print the detected `event*` devices and their USB identity so you can determine the correct `vendor_id`, `product_id`, and `interface_number`.
+
+```bash
+cargo run -q -- inspect
+```
+
+## List devices
+
+Print a short list of detected `event*` devices when you only need a quick overview or want to choose a target for `keycodes` or `probe`.
+
+```bash
+cargo run -q -- devices
+```
+
+## Probe one device
+
+Read raw key events from one specific device to confirm which interface actually carries the keys you want to map.
+
+```bash
+sudo cargo run -q -- probe /dev/input/eventX
+```
+
+## Read raw keycodes
+
+Print raw key names and numeric keycodes on key press. When a label such as `Tartarus` is used, the target device is resolved through `config/hardware.toml`.
+
+```bash
+sudo cargo run -q -- keycodes Tartarus
+sudo cargo run -q -- keycodes /dev/input/eventX
+sudo cargo run -q -- keycodes /dev/input/eventX --no-grab
+```
+
+## Run with systemd
 
 Build a release binary before creating a service.
 
