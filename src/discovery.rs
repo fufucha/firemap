@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use evdev::{Device, KeyCode};
+use evdev::{Device, EventType, KeyCode};
 use std::collections::HashSet;
 use std::ffi::OsStr;
 use std::fs;
@@ -23,6 +23,18 @@ pub struct CandidateDevice {
     pub usb: UsbIdentity,
     pub open_error: Option<String>,
     pub supported_keys: Option<HashSet<KeyCode>>,
+    pub capabilities: Option<InputCapabilities>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct InputCapabilities {
+    pub total_keys: usize,
+    pub keyboard_keys: usize,
+    pub button_keys: usize,
+    pub relative_axes: usize,
+    pub absolute_axes: usize,
+    pub leds: usize,
+    pub has_repeat: bool,
 }
 
 impl CandidateDevice {
@@ -98,6 +110,7 @@ pub fn enumerate_candidates() -> Result<Vec<CandidateDevice>> {
             usb,
             open_error: None,
             supported_keys: None,
+            capabilities: None,
         };
 
         match Device::open(&candidate.devnode) {
@@ -107,6 +120,7 @@ pub fn enumerate_candidates() -> Result<Vec<CandidateDevice>> {
                 candidate.supported_keys = device
                     .supported_keys()
                     .map(|keys| keys.iter().collect::<HashSet<_>>());
+                candidate.capabilities = Some(read_input_capabilities(&device));
             }
             Err(error) => {
                 candidate.open_error = Some(error.to_string());
@@ -130,6 +144,48 @@ pub fn enumerate_candidates() -> Result<Vec<CandidateDevice>> {
 
     candidates.sort_by(|left, right| compare_event_nodes(&left.devnode, &right.devnode));
     Ok(candidates)
+}
+
+/// Summarizes the generic input capabilities reported by one evdev node.
+fn read_input_capabilities(device: &Device) -> InputCapabilities {
+    let supported_events = device.supported_events();
+    let (total_keys, keyboard_keys, button_keys) = device
+        .supported_keys()
+        .map(|keys| {
+            let mut keyboard_keys = 0;
+            let mut button_keys = 0;
+
+            for key in keys.iter() {
+                let name = format!("{:?}", key);
+                if name.starts_with("KEY_") {
+                    keyboard_keys += 1;
+                } else if name.starts_with("BTN_") {
+                    button_keys += 1;
+                }
+            }
+
+            (keys.iter().count(), keyboard_keys, button_keys)
+        })
+        .unwrap_or_default();
+
+    InputCapabilities {
+        total_keys,
+        keyboard_keys,
+        button_keys,
+        relative_axes: device
+            .supported_relative_axes()
+            .map(|axes| axes.iter().count())
+            .unwrap_or_default(),
+        absolute_axes: device
+            .supported_absolute_axes()
+            .map(|axes| axes.iter().count())
+            .unwrap_or_default(),
+        leds: device
+            .supported_leds()
+            .map(|leds| leds.iter().count())
+            .unwrap_or_default(),
+        has_repeat: supported_events.contains(EventType::REPEAT),
+    }
 }
 
 /// Walks the udev tree to read the stable USB identity for one device.

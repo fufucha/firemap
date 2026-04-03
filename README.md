@@ -26,7 +26,7 @@ cargo build
 
 ## Inspect Devices
 
-Print the detected `event*` devices and their USB identity so you can determine the correct `vendor_id`, `product_id`, `interface_number`, and optional `serial`.
+Print the detected `event*` devices and their USB identity so you can determine the correct `vendor_id`, `product_id`, and `interface_number`.
 
 ```bash
 cargo run -q -- inspect
@@ -39,6 +39,17 @@ Print a short list of detected `event*` devices when you only need a quick overv
 ```bash
 cargo run -q -- devices
 ```
+
+## Suggest Hardware Config
+
+Print likely `[[device]]` blocks for `config/hardware.toml` based on detected devices. This is meant as a starting point for users who are less comfortable inspecting the raw device metadata by hand.
+
+```bash
+cargo run -q -- hardware
+cargo run -q -- hardware --all
+```
+
+By default the command groups interfaces that appear to belong to the same physical device and prints the most likely candidate first. Use `--all` when you want to inspect every interface. The generated `label` is the detected device name, so you can keep it as is or rename it to something shorter for your setup. Then use `inspect`, `probe`, or `keycodes` if you need to confirm which interface is the correct one.
 
 ## Probe One Device
 
